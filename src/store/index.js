@@ -12,7 +12,6 @@ export default new Vuex.Store({
     user: {},
     storageUser: JSON.parse(localStorage.getItem(STORAGE_USER_KEY)) || {},
     error: null,
-    postsError: null,
   },
 
   getters: {
@@ -24,7 +23,6 @@ export default new Vuex.Store({
       [user, storageUser].find(checkingUser),
 
     error: (state) => state.error,
-    postsError: (state) => state.postsError,
 
     isAuthUser: ({ user, storageUser }, { checkingUser }) =>
       [user, storageUser].some(checkingUser),
@@ -48,14 +46,6 @@ export default new Vuex.Store({
 
     setError(state, message) {
       state.error = message;
-    },
-
-    setPostsError(state, message) {
-      state.postsError = message;
-    },
-
-    clearPostsError(state) {
-      state.postsError = null;
     },
 
     clearError(state) {

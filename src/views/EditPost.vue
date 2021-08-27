@@ -53,7 +53,7 @@ export default {
   }),
 
   computed: {
-    ...mapGetters(["editPost", "posts"]),
+    ...mapGetters(["editPost", "posts", "postsError"]),
   },
 
   created() {
@@ -66,20 +66,42 @@ export default {
 
   methods: {
     ...mapActions(["changePost", "clearEditPost", "addPost"]),
-    onEditSubmit() {
+
+    createNotification() {
+      this.$buefy.notification.open({
+        duration: 3000,
+        message: this.postsError,
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+      });
+    },
+
+    onCheckingError() {
+      if (this.postsError) {
+        this.createNotification();
+      }
+    },
+
+    async onEditSubmit() {
       const date = new Date().toISOString();
       this.post.dateUpdate = date;
 
       if (this.editPost) {
-        this.changePost(this.post);
+        await this.changePost(this.post);
+        this.onCheckingError();
       } else {
         this.post.id = this.posts.length + 1;
         this.post.dateCreate = date;
-        this.addPost(this.post);
+        await this.addPost(this.post);
+        this.onCheckingError();
       }
 
       this.clearEditPost();
-      this.$router.push({ name: "home" });
+
+      if (!this.postsError) {
+        this.$router.push({ name: "home" });
+      }
     },
 
     clearPost() {

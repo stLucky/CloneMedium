@@ -15,6 +15,7 @@ const Errors = {
 
 const PostsErrors = {
   NON_DELETED_POST: "Не удалось удалить пост, пожалуйста попробуйте еще раз",
+  NON_CREATED_POST: "Не удалось добавить пост, попробуйте в другой раз",
 };
 
 const Users = {

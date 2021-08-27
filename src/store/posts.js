@@ -12,10 +12,12 @@ export default {
     hasPosts: true,
     isLoading: true,
     editPost: null,
+    postsError: null,
   },
 
   getters: {
     posts: (state) => state.posts,
+    postsError: (state) => state.postsError,
     editPost: (state) => state.editPost,
     hasPosts: (state) => state.hasPosts,
     isLoading: (state) => state.isLoading,
@@ -29,6 +31,14 @@ export default {
   mutations: {
     setPosts(state, posts) {
       state.posts = posts;
+    },
+
+    setPostsError(state, message) {
+      state.postsError = message;
+    },
+
+    clearPostsError(state) {
+      state.postsError = null;
     },
 
     setEditPost(state, post) {
@@ -113,16 +123,18 @@ export default {
       );
     },
 
-    async deletePost({ commit, state, rootGetters }, post) {
+    async deletePost({ commit, state }, post) {
       const index = state.posts.findIndex((item) => item.id === post.id);
 
       try {
         await makeRequest(`http://localhost:3000/posts/${post.id}`, {
           method: "DELETE",
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
         });
 
-        if (rootGetters.postsError) {
+        if (state.postsError) {
           commit("clearPostsError");
         }
 
@@ -141,8 +153,8 @@ export default {
       commit("changePost", post);
     },
 
-    addPost(
-      { commit, rootGetters },
+    async addPost(
+      { commit, state, rootGetters },
       { title, description, dateUpdate, dateCreate, id }
     ) {
       const formattedPost = {
@@ -155,7 +167,24 @@ export default {
         userId: rootGetters.user.id,
       };
 
-      commit("addPost", formattedPost);
+      try {
+        await makeRequest(`http://localhost:3000/posts`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify(formattedPost),
+        });
+
+        if (state.postsError) {
+          commit("clearPostsError");
+        }
+
+        commit("addPost", formattedPost);
+      } catch (error) {
+        console.log(error);
+        commit("setPostsError", PostsErrors.NON_CREATED_POST);
+      }
     },
 
     clearEditPost({ commit }) {
