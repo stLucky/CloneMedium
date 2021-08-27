@@ -97,9 +97,8 @@ export default {
         this.onCheckingError();
       }
 
-      this.clearEditPost();
-
       if (!this.postsError) {
+        this.clearEditPost();
         this.$router.push({ name: "home" });
       }
     },

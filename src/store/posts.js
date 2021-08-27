@@ -2,6 +2,7 @@ import { makeRequest } from "@/api/server";
 import {
   STORAGE_CLAPS_KEY,
   COUNT_DELETED__ELEMENTS,
+  BASE_URL,
   Errors,
   PostsErrors,
 } from "@/const";
@@ -62,11 +63,9 @@ export default {
     addPost(state, post) {
       state.posts.push(post);
     },
-
     setPostsInStorage(state, [post, claps]) {
       post.claps = claps;
     },
-
     setHasPosts(state) {
       state.hasPosts = false;
     },
@@ -74,11 +73,9 @@ export default {
     setIsLoading(state) {
       state.isLoading = false;
     },
-
     increaseClaps(state, post) {
       post.claps++;
     },
-
     deletePost(state, index) {
       state.posts.splice(index, COUNT_DELETED__ELEMENTS);
     },
@@ -88,7 +85,7 @@ export default {
     async getPosts({ commit, state }) {
       if (!state.posts.length) {
         try {
-          const posts = await makeRequest("http://localhost:3000/posts");
+          const posts = await makeRequest(`${BASE_URL }/posts`);
           commit("setPosts", posts);
 
           if (localStorage.getItem(STORAGE_CLAPS_KEY)) {
@@ -114,20 +111,41 @@ export default {
       }
     },
 
-    setClaps({ commit, getters }, post) {
-      commit("increaseClaps", post);
+    async setClaps({ state, getters, commit }, post) {
+      try {
+        commit("increaseClaps", post);
 
-      localStorage.setItem(
-        STORAGE_CLAPS_KEY,
-        JSON.stringify(getters.postsForStorage)
-      );
+        const updatePost = {
+          claps: post.claps,
+        };
+
+        await makeRequest(`${BASE_URL}/posts/${post.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify(updatePost),
+        });
+
+        if (state.postsError) {
+          commit("clearPostsError");
+        }
+
+        localStorage.setItem(
+          STORAGE_CLAPS_KEY,
+          JSON.stringify(getters.postsForStorage)
+        );
+      } catch (error) {
+        console.log(error);
+        commit("setPostsError", PostsErrors.NON_UPDATED_LIKE);
+      }
     },
 
     async deletePost({ commit, state }, post) {
       const index = state.posts.findIndex((item) => item.id === post.id);
 
       try {
-        await makeRequest(`http://localhost:3000/posts/${post.id}`, {
+        await makeRequest(`${BASE_URL}/posts/${post.id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -149,8 +167,31 @@ export default {
       commit("setEditPost", post);
     },
 
-    changePost({ commit }, post) {
-      commit("changePost", post);
+    async changePost({ commit, state }, post) {
+      const updatePost = {
+        description: post.description,
+        title: post.title,
+        updateAt: post.dateUpdate,
+      };
+
+      try {
+        await makeRequest(`${BASE_URL}/posts/${post.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify(updatePost),
+        });
+
+        if (state.postsError) {
+          commit("clearPostsError");
+        }
+
+        commit("changePost", post);
+      } catch (error) {
+        console.log(error);
+        commit("setPostsError", PostsErrors.NON_UPDATED_POST);
+      }
     },
 
     async addPost(
@@ -168,7 +209,7 @@ export default {
       };
 
       try {
-        await makeRequest(`http://localhost:3000/posts`, {
+        await makeRequest(`${BASE_URL}/posts`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json;charset=utf-8",

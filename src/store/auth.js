@@ -1,13 +1,11 @@
 import { makeRequest } from "@/api/server";
-import { Errors } from "@/const";
+import { Errors, BASE_URL } from "@/const";
 
 export default {
   actions: {
     async login({ commit, dispatch }, { email, password }) {
       try {
-        const userWrap = await makeRequest(
-          `http://localhost:3000/users?login=${email}`
-        );
+        const userWrap = await makeRequest(`${BASE_URL}/users?login=${email}`);
 
         if (userWrap.length) {
           const INDEX_USER = 0;

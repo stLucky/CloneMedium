@@ -127,9 +127,7 @@ export default {
 
   watch: {
     postsError() {
-      if (this.postsError) {
-        this.createNotification();
-      }
+      this.onCheckingError();
     },
   },
 
@@ -141,8 +139,10 @@ export default {
 
   methods: {
     ...mapActions(["getPosts", "setClaps", "deletePost", "setEditPost"]),
-    onClapsClick(post) {
-      this.setClaps(post);
+
+    async onClapsClick(post) {
+      await this.setClaps(post);
+      this.onCheckingError();
     },
 
     createNotification() {
@@ -155,12 +155,16 @@ export default {
       });
     },
 
-    async onDeleteClick(post) {
-      await this.deletePost(post);
-
+    onCheckingError() {
       if (this.postsError) {
         this.createNotification();
       }
+    },
+
+    async onDeleteClick(post) {
+      await this.deletePost(post);
+
+      this.onCheckingError();
     },
 
     async onEditClick(post) {

@@ -16,11 +16,20 @@
   "posts": [
     {
       "id": 1,
-      "title": "Пост 1",
-      "description": "Текст",
-      "claps": 0,
+      "title": "Пост1",
+      "description": "Текст1",
+      "claps": 14,
       "createdAt": "2019-09-29T00:00:00.000Z",
-      "updateAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2021-08-27T14:38:45.635Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Пост2",
+      "description": "Текст2",
+      "claps": 17,
+      "createdAt": "2021-08-27T14:33:35.807Z",
+      "updateAt": "2021-08-27T14:38:54.111Z",
       "userId": 1
     }
   ]
