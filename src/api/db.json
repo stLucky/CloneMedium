@@ -1,0 +1,108 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "login": "writer@mail.com",
+      "password": 123456,
+      "role": "writer"
+    },
+    {
+      "id": 2,
+      "login": "reader@mail.com",
+      "password": 123456,
+      "role": "reader"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 4,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 6,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 7,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 8,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 9,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    },
+    {
+      "id": 10,
+      "title": "Пост 1",
+      "description": "Текст",
+      "claps": 0,
+      "createdAt": "2019-09-29T00:00:00.000Z",
+      "updateAt": "2019-09-29T00:00:00.000Z",
+      "userId": 1
+    }
+  ]
+}

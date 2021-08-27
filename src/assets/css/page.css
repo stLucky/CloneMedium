@@ -1,0 +1,13 @@
+body {
+  height: 100vh;
+}
+
+#app {
+  height: 100%;
+}
+
+.page-grid {
+  height: 100%;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+}
