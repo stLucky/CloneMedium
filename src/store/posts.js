@@ -1,5 +1,10 @@
 import { makeRequest } from "@/api/server";
-import { STORAGE_CLAPS_KEY, COUNT_DELETED__ELEMENTS, Errors } from "@/const";
+import {
+  STORAGE_CLAPS_KEY,
+  COUNT_DELETED__ELEMENTS,
+  Errors,
+  PostsErrors,
+} from "@/const";
 
 export default {
   state: {
@@ -108,9 +113,24 @@ export default {
       );
     },
 
-    deletePost({ commit, state }, post) {
+    async deletePost({ commit, state, rootGetters }, post) {
       const index = state.posts.findIndex((item) => item.id === post.id);
-      commit("deletePost", index);
+
+      try {
+        await makeRequest(`http://localhost:3000/posts/${post.id}`, {
+          method: "DELETE",
+          "Content-Type": "application/json",
+        });
+
+        if (rootGetters.postsError) {
+          commit("clearPostsError");
+        }
+
+        commit("deletePost", index);
+      } catch (error) {
+        console.log(error);
+        commit("setPostsError", PostsErrors.NON_DELETED_POST);
+      }
     },
 
     setEditPost({ commit }, post) {

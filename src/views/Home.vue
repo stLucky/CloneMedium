@@ -100,6 +100,7 @@ export default {
   computed: {
     ...mapGetters([
       "error",
+      "postsError",
       "posts",
       "hasPosts",
       "isLoading",
@@ -124,6 +125,14 @@ export default {
     },
   },
 
+  watch: {
+    postsError() {
+      if (this.postsError) {
+        this.createNotification();
+      }
+    },
+  },
+
   async created() {
     await this.getPosts();
   },
@@ -136,8 +145,22 @@ export default {
       this.setClaps(post);
     },
 
-    onDeleteClick(post) {
-      this.deletePost(post);
+    createNotification() {
+      this.$buefy.notification.open({
+        duration: 3000,
+        message: this.postsError,
+        position: "is-top-right",
+        type: "is-danger",
+        hasIcon: true,
+      });
+    },
+
+    async onDeleteClick(post) {
+      await this.deletePost(post);
+
+      if (this.postsError) {
+        this.createNotification();
+      }
     },
 
     async onEditClick(post) {

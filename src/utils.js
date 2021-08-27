@@ -1,4 +1,4 @@
-const NUMBER_SEC_IN_DAY = 86400000;
+import { NUMBER_SEC_IN_DAY } from "@/const";
 
 const declOfNum = (number, words) => {
   return words[
