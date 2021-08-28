@@ -12,9 +12,12 @@
             v-for="post in renderedPosts"
             :key="post.id"
           >
-            <div class="card">
-              <div class="card-content">
-                <div class="content">
+            <div class="card" style="height: 100%">
+              <div
+                class="card-content is-flex is-flex-direction-column"
+                style="height: 100%"
+              >
+                <div class="content is-flex-grow-1">
                   <h2>{{ post.title }}</h2>
                   {{ post.description }}
                 </div>
