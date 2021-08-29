@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import { STORAGE_USER_KEY, Users } from "@/const";
+import { Storage, Users } from "@/const";
 import auth from "./auth";
 import posts from "./posts";
 
@@ -10,13 +10,12 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     user: {},
-    storageUser: JSON.parse(localStorage.getItem(STORAGE_USER_KEY)) || {},
+    storageUser: JSON.parse(localStorage.getItem(Storage.USER)) || {},
     error: null,
   },
 
   getters: {
     checkingStorageUser: (state) => Object.keys(state.storageUser).length !== 0,
-
     checkingUser: () => (item) => Object.keys(item).length !== 0,
 
     user: ({ user, storageUser }, { checkingUser }) =>
@@ -28,9 +27,7 @@ export default new Vuex.Store({
       [user, storageUser].some(checkingUser),
 
     role: (state) => state.user.role || state.storageUser.role,
-
     isWriter: (state, { role }) => role === Users.WRITER,
-
     isReader: (state, { role }) => role === Users.READER,
   },
 
@@ -56,14 +53,14 @@ export default new Vuex.Store({
   actions: {
     setUser({ commit, getters }, user) {
       if (!getters.checkingStorageUser) {
-        localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(user));
+        localStorage.setItem(Storage.USER, JSON.stringify(user));
         commit("setUser", user);
       }
     },
 
     clearUser({ commit }) {
       commit("clearUser");
-      localStorage.clear(STORAGE_USER_KEY);
+      localStorage.clear(Storage.USER);
     },
   },
 

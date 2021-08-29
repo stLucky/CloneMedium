@@ -1,11 +1,16 @@
-const STORAGE_USER_KEY = "user";
-const STORAGE_CLAPS_KEY = "claps";
-const STORAGE_EDIT_POST_KEY = "edit";
 const COUNT_DELETED__ELEMENTS = 1;
 const VISIBLE_POSTS_ON_PAGE = 10;
 const NUMBER_SEC_IN_DAY = 86400000;
 
 const BASE_URL = "http://localhost:3000";
+
+const Storage = {
+  USER: "user",
+  CLAPS: "claps",
+  ENTERED_DATA: "entered_data",
+  EDIT_POST: "edit_post",
+  PAGE: "page",
+};
 
 const Errors = {
   NON_EXISTING_USER: "Такого пользователя не существует",
@@ -28,13 +33,11 @@ const Users = {
 };
 
 export {
-  STORAGE_USER_KEY,
-  STORAGE_CLAPS_KEY,
-  STORAGE_EDIT_POST_KEY,
   COUNT_DELETED__ELEMENTS,
   VISIBLE_POSTS_ON_PAGE,
   NUMBER_SEC_IN_DAY,
   BASE_URL,
+  Storage,
   Errors,
   PostsErrors,
   Users,

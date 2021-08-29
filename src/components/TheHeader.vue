@@ -25,8 +25,11 @@
           <b-dropdown-item custom>
             Роль: <span class="has-text-weight-bold">{{ user.role }}</span>
           </b-dropdown-item>
-          <b-dropdown-item v-if="isWriter" has-link>
-            <router-link :to="{ name: 'edit' }">Создать пост </router-link>
+          <b-dropdown-item
+            v-if="isWriter && !isCreatePath"
+            @click="onNewPostClick"
+          >
+            Создать пост
           </b-dropdown-item>
           <hr class="dropdown-divider" />
           <b-dropdown-item @click="logout">
@@ -40,15 +43,24 @@
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "TheHeader",
 
   computed: {
-    ...mapGetters(["isAuthUser", "user", "isWriter"]),
+    ...mapGetters(["isAuthUser", "user", "isWriter", "editPost"]),
+
+    isCreatePath() {
+      return this.$route.params.action === "create";
+    },
   },
 
   methods: {
     ...mapActions(["logout"]),
+
+    onNewPostClick() {
+      this.$router.push("/post/create");
+    },
   },
 };
 </script>

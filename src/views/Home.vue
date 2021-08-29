@@ -86,7 +86,7 @@
 import MainLayout from "@/layouts/MainLayout";
 import ErrorContent from "@/components/ErrorContent";
 
-import { VISIBLE_POSTS_ON_PAGE } from "@/const";
+import { VISIBLE_POSTS_ON_PAGE, Storage } from "@/const";
 import { getRenderedDate } from "@/utils";
 
 import { mapGetters, mapActions } from "vuex";
@@ -132,10 +132,19 @@ export default {
     postsError() {
       this.onCheckingError();
     },
+
+    currentPage(value) {
+      localStorage.setItem(Storage.PAGE, value);
+    },
   },
 
   async created() {
     await this.getPosts();
+
+    if (localStorage.getItem(Storage.PAGE)) {
+      const storagePage = JSON.parse(localStorage.getItem(Storage.PAGE));
+      this.currentPage = storagePage;
+    }
   },
 
   POST_ON_PAGE: VISIBLE_POSTS_ON_PAGE,
@@ -166,13 +175,12 @@ export default {
 
     async onDeleteClick(post) {
       await this.deletePost(post);
-
       this.onCheckingError();
     },
 
     async onEditClick(post) {
       await this.setEditPost(post);
-      this.$router.push({ name: "edit" });
+      this.$router.push("/post/edit");
     },
   },
 };

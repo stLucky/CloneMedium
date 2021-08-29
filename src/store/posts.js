@@ -1,6 +1,6 @@
 import { makeRequest } from "@/api/server";
 import {
-  STORAGE_CLAPS_KEY,
+  Storage,
   COUNT_DELETED__ELEMENTS,
   BASE_URL,
   Errors,
@@ -85,12 +85,12 @@ export default {
     async getPosts({ commit, state }) {
       if (!state.posts.length) {
         try {
-          const posts = await makeRequest(`${BASE_URL }/posts`);
+          const posts = await makeRequest(`${BASE_URL}/posts`);
           commit("setPosts", posts);
 
-          if (localStorage.getItem(STORAGE_CLAPS_KEY)) {
+          if (localStorage.getItem(Storage.CLAPS)) {
             const storagePosts = JSON.parse(
-              localStorage.getItem(STORAGE_CLAPS_KEY)
+              localStorage.getItem(Storage.CLAPS)
             );
 
             state.posts.forEach((post) => {
@@ -132,7 +132,7 @@ export default {
         }
 
         localStorage.setItem(
-          STORAGE_CLAPS_KEY,
+          Storage.CLAPS,
           JSON.stringify(getters.postsForStorage)
         );
       } catch (error) {
@@ -165,6 +165,8 @@ export default {
 
     setEditPost({ commit }, post) {
       commit("setEditPost", post);
+
+      localStorage.setItem(Storage.EDIT_POST, JSON.stringify(post));
     },
 
     async changePost({ commit, state }, post) {

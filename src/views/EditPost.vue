@@ -37,6 +37,8 @@
 import MainLayout from "@/layouts/MainLayout";
 import { mapGetters, mapActions } from "vuex";
 
+import { Storage } from "@/const";
+
 export default {
   name: "EditPosts",
 
@@ -54,18 +56,62 @@ export default {
 
   computed: {
     ...mapGetters(["editPost", "posts", "postsError"]),
+    enteredData() {
+      return {
+        title: this.post.title,
+        description: this.post.description,
+      };
+    },
+  },
+
+  watch: {
+    enteredData() {
+      const dataInJson = JSON.stringify(this.enteredData);
+      localStorage.setItem(Storage.ENTERED_DATA, dataInJson);
+    },
+
+    "$route.params.action"() {
+      this.post.title = "";
+      this.post.description = "";
+      this.post.id = "";
+
+      this.clearEditPost();
+      this.clearStorage();
+    },
   },
 
   created() {
-    if (this.editPost) {
-      this.post.title = this.editPost.title;
-      this.post.description = this.editPost.description;
-      this.post.id = this.editPost.id;
+    if (localStorage.getItem(Storage.EDIT_POST)) {
+      const storagePost = JSON.parse(localStorage.getItem(Storage.EDIT_POST));
+
+      this.post.title = storagePost.title;
+      this.post.description = storagePost.description;
+      this.post.id = storagePost.id;
+
+      this.setEditPost(storagePost);
+    }
+
+    if (localStorage.getItem(Storage.ENTERED_DATA)) {
+      const storageData = JSON.parse(
+        localStorage.getItem(Storage.ENTERED_DATA)
+      );
+
+      this.post.title = storageData.title;
+      this.post.description = storageData.description;
     }
   },
 
+  beforeDestroy() {
+    this.clearStorage();
+  },
+
   methods: {
-    ...mapActions(["changePost", "clearEditPost", "addPost"]),
+    ...mapActions(["changePost", "clearEditPost", "addPost", "setEditPost"]),
+
+    clearStorage() {
+      localStorage.removeItem(Storage.ENTERED_DATA);
+      localStorage.removeItem(Storage.EDIT_POST);
+    },
 
     createNotification() {
       this.$buefy.notification.open({
@@ -93,6 +139,7 @@ export default {
       } else {
         this.post.id = this.posts.length + 1;
         this.post.dateCreate = date;
+
         await this.addPost(this.post);
         this.onCheckingError();
       }

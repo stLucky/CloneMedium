@@ -14,8 +14,8 @@ const routes = [
   },
   {
     name: "edit",
-    path: "/edit",
-    meta: { auth: true },
+    path: "/post/:action",
+    meta: { edit: true, auth: true },
     component: () => import("@/views/EditPost"),
   },
   {
