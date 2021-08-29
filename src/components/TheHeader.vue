@@ -32,7 +32,7 @@
             Создать пост
           </b-dropdown-item>
           <hr class="dropdown-divider" />
-          <b-dropdown-item @click="logout">
+          <b-dropdown-item @click="onLogoutClick">
             <b-icon icon="sign-out-alt"></b-icon>
             Выйти</b-dropdown-item
           >
@@ -60,6 +60,14 @@ export default {
 
     onNewPostClick() {
       this.$router.push("/post/create");
+    },
+
+    onLogoutClick() {
+      this.logout();
+
+      if (this.$route.meta.auth) {
+        this.$router.push({ name: "home" });
+      }
     },
   },
 };
