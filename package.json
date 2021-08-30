@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "node server.js",
     "serve": "vue-cli-service serve",
-    "json": "json-server ./src/api/db.json",
+    "json": "json-server ./db.json",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
