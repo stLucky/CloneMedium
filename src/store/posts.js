@@ -85,7 +85,7 @@ export default {
     async getPosts({ commit, state }) {
       if (!state.posts.length) {
         try {
-          const posts = await makeRequest(`${BASE_URL}/posts`);
+          const posts = await makeRequest(`${BASE_URL}posts`);
           commit("setPosts", posts);
 
           if (localStorage.getItem(Storage.CLAPS)) {
@@ -119,7 +119,7 @@ export default {
           claps: post.claps,
         };
 
-        await makeRequest(`${BASE_URL}/posts/${post.id}`, {
+        await makeRequest(`${BASE_URL}posts/${post.id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -145,7 +145,7 @@ export default {
       const index = state.posts.findIndex((item) => item.id === post.id);
 
       try {
-        await makeRequest(`${BASE_URL}/posts/${post.id}`, {
+        await makeRequest(`${BASE_URL}posts/${post.id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -177,7 +177,7 @@ export default {
       };
 
       try {
-        await makeRequest(`${BASE_URL}/posts/${post.id}`, {
+        await makeRequest(`${BASE_URL}posts/${post.id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -211,7 +211,7 @@ export default {
       };
 
       try {
-        await makeRequest(`${BASE_URL}/posts`, {
+        await makeRequest(`${BASE_URL}posts`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json;charset=utf-8",

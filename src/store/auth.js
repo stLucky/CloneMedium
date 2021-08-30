@@ -5,7 +5,7 @@ export default {
   actions: {
     async login({ commit, dispatch }, { email, password }) {
       try {
-        const userWrap = await makeRequest(`${BASE_URL}/users?login=${email}`);
+        const userWrap = await makeRequest(`${BASE_URL}users?login=${email}`);
 
         if (userWrap.length) {
           const INDEX_USER = 0;

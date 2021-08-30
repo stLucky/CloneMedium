@@ -2,7 +2,8 @@ const COUNT_DELETED__ELEMENTS = 1;
 const VISIBLE_POSTS_ON_PAGE = 10;
 const NUMBER_SEC_IN_DAY = 86400000;
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL =
+  process.env.NODE_ENV === "production" ? "/" : "http://localhost:3000/";
 
 const Storage = {
   USER: "user",
