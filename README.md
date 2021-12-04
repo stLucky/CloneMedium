@@ -1,6 +1,6 @@
 # MediumClone - аналог "Medium"
 
-https://clone-medium.herokuapp.com - deployed версия приложения.   
+https://clone-medium.herokuapp.com   
 Для теста ролей данные от логина и пароля:
   1. писатель: writer@mail.com - 123456
   2. читатель: reader@mail.com - 123456 
